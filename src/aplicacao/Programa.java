@@ -17,7 +17,8 @@ public class Programa {
 		Date data;
 		SimpleDateFormat formatadorData = new SimpleDateFormat("dd/MM/yyyy");
 		Double valorHora;
-		int horas, mes, ano;
+		int opcao, horas, mes, ano;
+		NivelFuncionario nivel;
 		ContratoPorHora contrato;
 
 		Scanner scanner = new Scanner(System.in);
@@ -25,8 +26,26 @@ public class Programa {
 		try {
 			System.out.print("Digite o nome do funcionário: ");
 			String nome = scanner.next();
+			System.out.println("Níveis:");
+			System.out.println("1 - JUNIOR (padrão)");
+			System.out.println("2 - PLENO");
+			System.out.println("3 - SENIOR");
 			System.out.print("Digite o nível do funcionário: ");
-			NivelFuncionario nivel = NivelFuncionario.valueOf(scanner.next());
+			opcao = scanner.nextInt();
+			switch (opcao) {
+			case 1:
+				nivel = NivelFuncionario.JUNIOR;
+				break;
+			case 2:
+				nivel = NivelFuncionario.JUNIOR;
+				break;
+			case 3:
+				nivel = NivelFuncionario.SENIOR;
+				break;
+			default:
+				nivel = NivelFuncionario.JUNIOR;
+				break;
+			}
 			System.out.print("Digite o salário do funcionário (R$):");
 			Double salario = scanner.nextDouble();
 			System.out.print("Digite o nome do departamento do funcionário: ");
@@ -37,11 +56,11 @@ public class Programa {
 			int qtdContratos = scanner.nextInt();
 
 			for (int i = 1; i <= qtdContratos; i++) {
-				System.out.print("Digite a data (DD/MM/AAAA) do contrato " + i + ": ");
+				System.out.print("Digite a data (DD/MM/AAAA) do contrato #" + i + ": ");
 				data = formatadorData.parse(scanner.next());
 				System.out.print("Digite o valor-hora do contrato #" + i + " (R$): ");
 				valorHora = scanner.nextDouble();
-				System.out.print("Digite o total de horas do contrato " + i + ": ");
+				System.out.print("Digite o total de horas do contrato #" + i + ": ");
 				horas = scanner.nextInt();
 
 				contrato = new ContratoPorHora(data, valorHora, horas);
@@ -60,19 +79,20 @@ public class Programa {
 			System.out.println("Nível: " + funcionario.getSalario());
 			System.out.println("Departamento: " + funcionario.getDepartamento().getNome());
 			System.out.println("Contratos:");
+			System.out.println("Data - Valor-hora - Total de horas - Valor total");
 
 			int i = 1;
 			for (ContratoPorHora meuContrato : funcionario.getContratos()) {
-				System.out.println(i + ":" + meuContrato.getData() + " - R$ " + meuContrato.getValorPorHora()
-						+ "/hora - " + meuContrato.getHoras() + " horas");
+				System.out.println(i + ": " + meuContrato.getData() + " - R$ " + meuContrato.getValorPorHora()
+						+ "/hora - " + meuContrato.getHoras() + " horas" + " - R$ " + meuContrato.calcularValorTotal());
 				i++;
 			}
 
 			System.out.println("Remuneração no mês " + mes + "/" + ano + ": R$ " + funcionario.calcularRemuneracao(mes, ano));
 		} catch (IllegalArgumentException e) {
-			System.out.println("ERRO: você digitou um tipo de NÍVEL inválido. Programa terminado.");
+			System.out.println("Erro: você digitou um tipo de NÍVEL inválido. Programa terminado.");
 		} catch (InputMismatchException e) {
-			System.out.println("ERRO: você digitou um tipo de dado inválido para este campo. Programa terminado.");
+			System.out.println("Erro: você digitou um tipo de dado inválido para este campo. Programa terminado.");
 		}
 	}
 
