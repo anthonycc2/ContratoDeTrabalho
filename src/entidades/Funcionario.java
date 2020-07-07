@@ -78,7 +78,7 @@ public class Funcionario {
 			anoContrato = calendario.get(Calendar.YEAR);
 			
 			if (mesContrato == mes && anoContrato == ano) {
-				remuneracao += contrato.valorTotal();
+				remuneracao += contrato.calcularValorTotal();
 			}
 		}
 
